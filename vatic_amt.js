@@ -129,6 +129,46 @@ function extractFramesFromVideo(config, file, progress) {
 
 function extractFramesFromZip(config, file) {
   return new Promise((resolve, _) => {
+fetch(file)       // 1) fetch the url
+	.then(function (response) {                       // 2) filter on 200 OK
+		if (response.status === 200 || response.status === 0) {
+			return Promise.resolve(response.blob());
+		} else {
+			return Promise.reject(new Error(response.statusText));
+		}
+	})
+	.then(JSZip.loadAsync)
+      .then((zip) => {
+        let totalFrames = 0;
+        for (let i = 0; ; i++) {
+          let file = zip.file(i + config.imageExtension);
+          if (file == null) {
+            totalFrames = i;
+            break;
+          }
+        }
+
+        resolve({
+          totalFrames: () => { return totalFrames; },
+          getFrame: (frameNumber) => {
+            return new Promise((resolve, _) => {
+              let file = zip.file(frameNumber + config.imageExtension);
+              file
+                .async('arraybuffer')
+                .then((content) => {
+                  let blob = new Blob([ content ], {type: config.imageMimeType});
+                  resolve(blob);
+                });
+            });
+          }
+        });
+      });
+  });
+}
+
+/*
+function extractFramesFromZip(config, file) {
+  return new Promise((resolve, _) => {
     JSZip
       .loadAsync(file)
       .then((zip) => {
@@ -158,6 +198,7 @@ function extractFramesFromZip(config, file) {
       });
   });
 }
+*/
 
 /**
  * Tracks point between two consecutive frames using optical flow.
