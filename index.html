@@ -466,7 +466,8 @@
         }
 
         promise.then((frames) => {
-          extractionProgressElement.innerHTML = 'Extraction completed. ' + frames.totalFrames() + ' frames captured.';
+          <!-- extractionProgressElement.innerHTML = 'Extraction completed. ' + frames.totalFrames() + ' frames captured.'; 
+		  --> 
           if (frames.totalFrames() > 0) {
             frames.getFrame(0).then((blob) => {
               blobToImage(blob).then((img) => {
