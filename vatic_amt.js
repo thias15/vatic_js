@@ -127,9 +127,21 @@ function extractFramesFromVideo(config, file, progress) {
  * Extracts the frame sequence from a previously generated zip file.
  */
 
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
+}
+
 function extractFramesFromZip(config, file) {
   return new Promise((resolve, _) => {
-fetch(file)       // 1) fetch the url
+fetch(file, {
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *omit
+    method: 'GET', // *GET, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *same-origin
+    redirect: 'follow', // *manual, error
+    //referrer: 'no-referrer', // *client
+	})       // 1) fetch the url
 	.then(function (response) {                       // 2) filter on 200 OK
 		if (response.status === 200 || response.status === 0) {
 			return Promise.resolve(response.blob());
