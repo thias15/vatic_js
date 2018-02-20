@@ -343,7 +343,8 @@ class AnnotatedFrame {
   }
 
   isVisible() {
-    return this.bbox != null;
+    //return this.bbox != null;
+    return true
   }
 }
 

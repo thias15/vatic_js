@@ -128,7 +128,7 @@
 		<p>To resume a previous annotation, select a frames zip archive: <input type="file" id="zipFile" accept=".zip" /></p>
 		-->
         <p>Click to load the video: <input type="button" id="zipFile" value="Load Video" /></p>
-        <p>Note: Keep the focus on the browser during the entire extraction process, or frames might be skipped.</p>
+        <p>Note: Loading can take several minutes! Keep the focus on the browser during the entire extraction process, or frames might be skipped.</p>
         <p class="output" id="videoDimensions"></p>
         <p class="output" id="extractionProgress"></p>
       </li>
@@ -157,11 +157,13 @@
 		<p>Adjust the bounding box to fit around the object as tight as possible. Bounding boxes are rectangular and cannot be rotated, but try to place them such that the amount of background is minimized. If the object is partially occluded only annotate the visible part.</p>
         <p>Keep going through the video until all frames are annotated. You can use the left arrow or slider to go back and check the annotations.</p>
 		<p>Tip: Zoom in with your browser to place the bounding boxes more accurately.</p>
+        <p>Note: We will check all annotation manually and not accept the job if done very poorly. If done well, we will pay a bonus.</p>
 		<!--
 		<p>Tip: Use the spacebar to play/pause the video, and the left and right arrows to navigate frame by frame.</p>
         <p>Tip: The visibility of each object can be toogled with its visiblity checkbox under the video.</p>
 		-->
-		<p><input id="annotation" name="AnnotationOutput" size="25" type="hidden" /></p>
+		<p>Video ID: ${file_name}</p>
+		<p><input id="annotation" name="Annotation" size="25" type="hidden" /></p>
 				
         <div id="doodle">
           <canvas id="canvas"></canvas>
@@ -175,7 +177,8 @@
       </li>
       <li>
         <p><input type="button" id="generateXml" value="Generate Output" disabled="true" /> </p> 
-		<p><input id="status" name="StatusOutput" size="25" type="text" /></p>
+		<p><input id="status" name="Status" size="25" type="text" /></p>
+        <p><input id="comment" name="Comment" size="50" type="text" /></p>
 
 		<!-- the <a href="http://web.mit.edu/vondrick/vatic/" target="new">vatic</a>-compatible XML annotations file. -->
       </li
@@ -197,12 +200,18 @@
 	
 
       "use strict";
-	  //let XML_URL = ${anno_link}
-	  //let ZIP_URL = ${video_link} 
-	  let XML_URL = 'https://s3.amazonaws.com/trackingnet/0_2dsK8nudw_1.xml'
-	  let ZIP_URL = 'https://s3.amazonaws.com/trackingnet/0_2dsK8nudw_1.zip'
+	  let fileName = '${file_name}' //'-Dz7OIf54b0_0'
+	  let SRC_URL = 'https://s3.amazonaws.com/trackingnet/'
+	  let XML_URL = SRC_URL + fileName + '.xml'
+	  let ZIP_URL = SRC_URL + fileName + '.zip'
+	  
+	  //let XML_URL = 'https://s3.amazonaws.com/trackingnet/-Dz7OIf54b0_0.xml'
+	  //let ZIP_URL = 'https://s3.amazonaws.com/trackingnet/-Dz7OIf54b0_0.zip'
 	  //let XML_URL = 'https://thias15.github.io/vatic_js/test_video.xml'
 	  //let ZIP_URL = 'https://thias15.github.io/vatic_js/test_video.zip'
+	  //let fileName = ZIP_URL.substring(ZIP_URL.lastIndexOf('/')).replace(".zip", "")
+
+	  let bForceAllAnno = false
 	  
       let config = {
         // Should be higher than real FPS to not skip real frames
@@ -726,8 +735,8 @@
       function generateXml() {
         let xml = '<?xml version="1.0" encoding="utf-8"?>\n';
         xml += '<annotation>\n';
-        xml += '  <folder>not available</folder>\n';
-        xml += '  <filename>not available</filename>\n';
+        xml += '  <folder>Tracking-Net</folder>\n';
+        xml += '  <filename>'+ fileName +'</filename>\n';
         xml += '  <source>\n';
         xml += '    <type>video</type>\n';
         xml += '    <sourceImage>vatic frames</sourceImage>\n';
@@ -751,8 +760,13 @@
           for (let frameNumber = 0; frameNumber < totalFrames; frameNumber++) {
             let annotatedFrame = annotatedObject.get(frameNumber);
             if (annotatedFrame == null) {
-              window.alert('Play the video in full before downloading the XML so that bounding box data is available for all frames.');
-              return;
+				if (bForceAllAnno) {
+				  window.alert('Play the video in full before downloading the XML so that bounding box data is available for all frames.');
+				  return;
+				}
+				else{
+				  continue;
+				}
             }
 
             let bbox = annotatedFrame.bbox;
@@ -778,10 +792,10 @@
 		document.getElementById("annotation").value = xml;
 		document.getElementById("status").value = "Annotation Saved!";
 
-        //let writeStream = streamSaver.createWriteStream('output.xml').getWriter();
-        //let encoder = new TextEncoder();
-        //writeStream.write(encoder.encode(xml));
-        //writeStream.close();
+        let writeStream = streamSaver.createWriteStream(fileName + ".xml").getWriter();
+        let encoder = new TextEncoder();
+        writeStream.write(encoder.encode(xml));
+        writeStream.close();
 
 
 		// Example POST method implementation:
