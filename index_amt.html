@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>vatic.js A pure Javascript video annotation tool</title>
     <style>
-      .output { font-family: monospace; font-weight: bold; }
+      .output { font-family: monospace; font-weight: bold;}
 
       #doodle {
         position: relative;
@@ -19,7 +19,7 @@
       }
 
       .bbox {
-        border: 1px solid #FF0000;
+        border: 2px solid #FF0000;
         position: absolute;
         z-index: 3;
       }
@@ -114,71 +114,73 @@
   </head>
   <body>
     <h1>Video Annotation Tool</h1>
-    <p>This tool uses Javascript and works best in Chrome. It has also been successfully tested in Firefox.</p>
+    <p style="font-size:18px">This tool uses Javascript and works best in Chrome. It has also been successfully tested in Firefox.</p>
     <ol>
 	<!--
       <li>
-        <p>This tool can be used to easily annotate a video, without having to install anything.</p>
-        <p>Optical flow is used to track your annotations, so that have to do as little work as possible ;-)</p>
+        <p style="font-size:18px">This tool can be used to easily annotate a video, without having to install anything.</p>
+        <p style="font-size:18px">Optical flow is used to track your annotations, so that have to do as little work as possible ;-)</p>
       </li>
 	  -->
-      <li>
+      <li style="font-size:18px">
         <!--
-		<p>To start a new video annotation, select a video file: <input type="file" id="videoFile" accept="video/*" /></p>
-		<p>To resume a previous annotation, select a frames zip archive: <input type="file" id="zipFile" accept=".zip" /></p>
+		<p style="font-size:18px">To start a new video annotation, select a video file: <input type="file" id="videoFile" accept="video/*" /></p>
+		<p style="font-size:18px">To resume a previous annotation, select a frames zip archive: <input type="file" id="zipFile" accept=".zip" /></p>
 		-->
-        <p>Click to load the video: <input type="button" id="zipFile" value="Load Video" /></p>
-        <p>Note: Loading can take several minutes! Keep the focus on the browser during the entire extraction process, or frames might be skipped.</p>
+        <p style="font-size:18px">Click to load the video: <input type="button" id="zipFile" value="Load Video" /></p>
+        <p style="font-size:18px">Note: Loading can take several minutes! Keep the focus on the browser during the entire extraction process, or frames might be skipped.</p>
         <p class="output" id="videoDimensions"></p>
         <p class="output" id="extractionProgress"></p>
       </li>
 	  <!--	  
-	  <li>
-		<p>Click to load annotation: <input type="button" id="xmlFile" value="Load Annotation" disabled="true"/></p>
+	  <li style="font-size:18px">
+		<p style="font-size:18px">Click to load annotation: <input type="button" id="xmlFile" value="Load Annotation" disabled="true"/></p>
       </li>
 
-      <li>
-        <p>Download the extracted frames zip archive: <input type="button" id="downloadFrames" value="Get frames zip archive" disabled="disabled" /></p>
+      <li style="font-size:18px">
+        <p style="font-size:18px">Download the extracted frames zip archive: <input type="button" id="downloadFrames" value="Get frames zip archive" disabled="disabled" /></p>
       </li>
-      <li>
-        <p>Optional: Load an existing <a href="http://web.mit.edu/vondrick/vatic/" target="new">vatic</a>-compatible XML annotation file: <input type="file" id="xmlFile" accept=".xml" disabled="true" /></p>
-        <p>This is useful for example if:</p>
+      <li style="font-size:18px">
+        <p style="font-size:18px">Optional: Load an existing <a href="http://web.mit.edu/vondrick/vatic/" target="new">vatic</a>-compatible XML annotation file: <input type="file" id="xmlFile" accept=".xml" disabled="true" /></p>
+        <p style="font-size:18px">This is useful for example if:</p>
         <ul>
           <li>You are resuming a previous annotation.</li>
           <li>You already have a first version of your automatic object detector, which you want to improve by manually correcting its errors.</li>
         </ul>
-        <p>Note: Launch your object detector on the extracted frames rather than on the original video to avoid frame/annotation mismatches!</p>
+        <p style="font-size:18px">Note: Launch your object detector on the extracted frames rather than on the original video to avoid frame/annotation mismatches!</p>
       </li>
 	  -->
 	   
-      <li>
-        <p>Annotate the frame sequence:</p>
-        <p>The first bounding box shows the object of interest. Use the right arrow on your keyboard to go to the next frame and make sure the checkbox visible is active.</p>
-		<p>Adjust the bounding box to fit around the object as tight as possible. Bounding boxes are rectangular and cannot be rotated, but try to place them such that the amount of background is minimized. If the object is partially occluded only annotate the visible part.</p>
-        <p>Keep going through the video until all frames are annotated. You can use the left arrow or slider to go back and check the annotations.</p>
-		<p>Tip: Zoom in with your browser to place the bounding boxes more accurately.</p>
-        <p>Note: We will check all annotation manually and not accept the job if done very poorly. If done well, we will pay a bonus.</p>
+      <li style="font-size:18px">
+        <p style="font-size:18px">Annotate the frame sequence:</p>
+        <p style="font-size:18px">The first few bounding boxes show the object of interest. Use the right arrow on your keyboard to go to the next frame.</p>
+		<p style="font-size:18px">Adjust the bounding box to fit around the object as tight as possible. If the object is partially occluded only annotate the visible part.</p>
+        <p style="font-size:18px">Bounding boxes are rectangular and cannot be rotated, but try to place them such that the amount of background is minimized.</p>
+        <p style="font-size:18px">Keep going through the video until all frames are annotated. You can use the left arrow to go back and check/correct previous annotations.</p>
+		<p style="font-size:18px">Tip: Zoom in with your browser to place the bounding boxes more accurately.</p>
+        <p style="font-size:18px">Note: We will check all annotations manually and do not accept the job if done very poorly. If done well, we will pay a bonus.</p>
+        <p style="font-size:18px">Note: To make sure you read the instructions, you will only be able to see the bounding box if you click the visibile check box.</p>       
 		<!--
-		<p>Tip: Use the spacebar to play/pause the video, and the left and right arrows to navigate frame by frame.</p>
-        <p>Tip: The visibility of each object can be toogled with its visiblity checkbox under the video.</p>
+		<p style="font-size:18px">Tip: Use the spacebar to play/pause the video, and the left and right arrows to navigate frame by frame.</p>
+        <p style="font-size:18px">Tip: The visibility of each object can be toogled with its visiblity checkbox under the video.</p>
 		-->
-		<p>Video ID: ${file_name}</p>
+		<p style="font-size:18px">Video ID: ${file_name}</p>
 		<p><input id="annotation" name="Annotation" size="25" type="hidden" /></p>
 				
         <div id="doodle">
           <canvas id="canvas"></canvas>
         </div>
+        <!--
         <p><input type="button" id="play" value="Play" disabled="true" /><input type="button" id="pause" value="Pause" disabled="true" style="display: none;" /></p>
         <div id="slider"></div>
         <p><label for="speed">Speed multiplier: </label><input type="text" id="speed" value="0.1" size="4" /></p>
-
+        -->
 		<div id="objects"></div>
 
       </li>
-      <li>
-        <p><input type="button" id="generateXml" value="Generate Output" disabled="true" /> </p> 
-		<p><input id="status" name="Status" size="25" type="text" /></p>
-        <p><input id="comment" name="Comment" size="50" type="text" /></p>
+      <li style="font-size:18px">
+        <p style="font-size:18px">Comments: <input id="comment" name="Comment" size="54" type="text" /></p>
+        <p style="font-size:18px">Click to generate output: <input type="Submit" id="generateXml" value="Generate Output" disabled="true" /> <input id="status" name="Status" size="20" type="text" readonly/> </p> 
 
 		<!-- the <a href="http://web.mit.edu/vondrick/vatic/" target="new">vatic</a>-compatible XML annotations file. -->
       </li
@@ -212,14 +214,16 @@
 	  //let fileName = ZIP_URL.substring(ZIP_URL.lastIndexOf('/')).replace(".zip", "")
 
 	  let bForceAllAnno = false
-	  
+	  let bDownloadXML = false
+      
       let config = {
         // Should be higher than real FPS to not skip real frames
         // Hardcoded due to JS limitations
         fps: 30,
 
         // Low rate decreases the chance of losing frames with poor browser performances
-        playbackRate: 0.4,
+        //playbackRate: 0.4,
+        playbackRate: 0.1,
 
         // Format of the extracted frames
         imageMimeType: 'image/jpeg',
@@ -238,15 +242,16 @@
       let videoDimensionsElement = document.querySelector('#videoDimensions');
       let extractionProgressElement = document.querySelector('#extractionProgress');
       //let downloadFramesButton = document.querySelector('#downloadFrames');
-      let playButton = document.querySelector('#play');
-      let pauseButton = document.querySelector('#pause');
+      //let playButton = document.querySelector('#play');
+      //let pauseButton = document.querySelector('#pause');
       let speedInput = document.querySelector('#speed');
-      let sliderElement = document.querySelector('#slider');
+      //let sliderElement = document.querySelector('#slider');
       let generateXmlButton = document.querySelector('#generateXml');
 
       let framesManager = new FramesManager();
       let annotatedObjectsTracker = new AnnotatedObjectsTracker(framesManager);
 
+      /*
       let slider = {
         init: function(min, max, onChange) {
           $(sliderElement).slider('option', 'min', min);
@@ -264,7 +269,8 @@
         }
       };
       slider.reset();
-
+      */
+      
       let player = {
         currentFrame: 0,
         isPlaying: false,
@@ -276,16 +282,16 @@
           this.isPlaying = false;
           this.isReady = false;
 
-          playButton.disabled = true;
-          playButton.style.display = 'block';
-          pauseButton.disabled = true;
-          pauseButton.style.display = 'none';
+          //playButton.disabled = true;
+          //playButton.style.display = 'block';
+          //pauseButton.disabled = true;
+          //pauseButton.style.display = 'none';
         },
 
         ready: function() {
           this.isReady = true;
 
-          playButton.disabled = false;
+          //playButton.disabled = false;
         },
 
         seek: function(frameNumber) {
@@ -308,10 +314,10 @@
 
           this.isPlaying = true;
 
-          playButton.disabled = true;
-          playButton.style.display = 'none';
-          pauseButton.disabled = false;
-          pauseButton.style.display = 'block';
+          //playButton.disabled = true;
+          //playButton.style.display = 'none';
+          //pauseButton.disabled = false;
+          //pauseButton.style.display = 'block';
 
           this.nextFrame();
         },
@@ -327,10 +333,10 @@
             this.timeout = null;
           }
 
-          pauseButton.disabled = true;
-          pauseButton.style.display = 'none';
-          playButton.disabled = false;
-          playButton.style.display = 'block';
+          //pauseButton.disabled = true;
+          //pauseButton.style.display = 'none';
+          //playButton.disabled = false;
+          //playButton.style.display = 'block';
         },
 
         toogle: function() {
@@ -367,6 +373,7 @@
                 let annotatedObject = object.annotatedObject;
                 let annotatedFrame = object.annotatedFrame;
                 if (annotatedFrame.isVisible()) {
+                  //annotatedObject.visible.prop('checked', false);
                   annotatedObject.dom.style.display = 'block';
                   annotatedObject.dom.style.width = annotatedFrame.bbox.width + 'px';
                   annotatedObject.dom.style.height = annotatedFrame.bbox.height + 'px';
@@ -390,7 +397,7 @@
                 }
               }
 
-              slider.setPosition(this.currentFrame);
+              //slider.setPosition(this.currentFrame);
 
               resolve();
             });
@@ -401,10 +408,10 @@
           this.currentFrame = 0;
           this.isPlaying = false;
 
-          playButton.disabled = false;
-          playButton.style.display = 'block';
-          pauseButton.disabled = true;
-          pauseButton.style.display = 'none';
+          //playButton.disabled = false;
+          //playButton.style.display = 'block';
+          //pauseButton.disabled = true;
+          //pauseButton.style.display = 'none';
         }
       };
 
@@ -428,8 +435,8 @@
 	  
       zipFile.addEventListener('click', extractionFileUploaded, false);
       //xmlFile.addEventListener('click', importXml, false);
-      playButton.addEventListener('click', playClicked, false);
-      pauseButton.addEventListener('click', pauseClicked, false);
+      //playButton.addEventListener('click', playClicked, false);
+      //pauseButton.addEventListener('click', pauseClicked, false);
       //downloadFramesButton.addEventListener('click', downloadFrames, false);
       generateXmlButton.addEventListener('click', generateXml, false);
 
@@ -467,7 +474,7 @@
         doodle.style.height = img.height + 'px';
         canvas.width = img.width;
         canvas.height = img.height;
-        sliderElement.style.width = img.width + 'px';
+        //sliderElement.style.width = img.width + 'px';
       }
 
       function extractionFileUploaded() {
@@ -482,7 +489,7 @@
         //downloadFramesButton.disabled = true;
         generateXmlButton.disabled = true;
         clearAllAnnotatedObjects();
-        slider.reset();
+        //slider.reset();
         player.initialize();
 
         let promise;
@@ -523,17 +530,19 @@
                 videoDimensionsElement.innerHTML = 'Video dimensions determined: ' + img.width + 'x' + img.height;
 
                 framesManager.set(frames);
+                /*
                 slider.init(
                   0,
                   framesManager.frames.totalFrames() - 1,
                   (frameNumber) => player.seek(frameNumber)
                 );
+                */
                 player.ready();
 
                 //xmlFile.disabled = false;
 				importXml();
 				
-                playButton.disabled = false;
+                //playButton.disabled = false;
                 //downloadFramesButton.disabled = false;
                 generateXmlButton.disabled = false;
               });
@@ -658,7 +667,7 @@
       }
 
       function addAnnotatedObjectControls(annotatedObject) {
-        let name = $('<input type="text" value="Name?" />');
+        let name = $('<input type="text" value="Name?" readonly/>');
         if (annotatedObject.name) {
           name.val(annotatedObject.name);
         }
@@ -666,7 +675,7 @@
           annotatedObject.name = this.value;
         });
 
-        let id = $('<input type="text" value="ID?" />');
+        let id = $('<input type="text" value="ID?" readonly/>');
         if (annotatedObject.id) {
           id.val(annotatedObject.id);
         }
@@ -675,7 +684,7 @@
         });
 
         let visibleLabel = $('<label>');
-        let visible = $('<input type="checkbox" checked="checked" />');
+        let visible = $('<input type="checkbox" checked="checked" />'); 
         annotatedObject.visible = visible;
         visible.change(function() {
           let bbox;
@@ -691,7 +700,7 @@
           annotatedObject.add(new AnnotatedFrame(player.currentFrame, bbox, true));
         });
         visibleLabel.append(visible);
-        visibleLabel.append('Is visible?');
+        visibleLabel.append('Annotation Active'); //Is visible?
 
         let hideLabel = $('<label>');
         let hide = $('<input type="checkbox" />');
@@ -722,10 +731,10 @@
         div.append(id);
         div.append($('<br />'));
         div.append(visibleLabel);
-        div.append($('<br />'));
-        div.append(hideLabel);
-        div.append($('<br />'));
-        div.append(del);
+        //div.append($('<br />'));
+        //div.append(hideLabel);
+        //div.append($('<br />'));
+        //div.append(del);
 
         annotatedObject.controls = div;
 
@@ -761,7 +770,7 @@
             let annotatedFrame = annotatedObject.get(frameNumber);
             if (annotatedFrame == null) {
 				if (bForceAllAnno) {
-				  window.alert('Play the video in full before downloading the XML so that bounding box data is available for all frames.');
+				  window.alert('Go through the complete video before submitting the job so that bounding box data is available for all frames.');
 				  return;
 				}
 				else{
@@ -792,10 +801,12 @@
 		document.getElementById("annotation").value = xml;
 		document.getElementById("status").value = "Annotation Saved!";
 
-        let writeStream = streamSaver.createWriteStream(fileName + ".xml").getWriter();
-        let encoder = new TextEncoder();
-        writeStream.write(encoder.encode(xml));
-        writeStream.close();
+        if (bDownloadXML){
+            let writeStream = streamSaver.createWriteStream(fileName + ".xml").getWriter();
+            let encoder = new TextEncoder();
+            writeStream.write(encoder.encode(xml));
+            writeStream.close();
+        }
 
 
 		// Example POST method implementation:
